@@ -1,4 +1,6 @@
 [![Build Status](https://travis-ci.org/Renelvon/epistasis-formulas.svg?branch=master)](https://travis-ci.org/Renelvon/epistasis-formulas)
+[![Code style: Black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
+
 
 # Description:
 
