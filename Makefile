@@ -14,6 +14,8 @@ build:
 	$(PYTHON) $(SETUP) build
 
 check:
+	check-manifest
+	pyroma -n 10 .
 
 clean:
 	git clean -xfd
