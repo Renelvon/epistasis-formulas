@@ -26,7 +26,7 @@ dist:
 distclean: clean
 
 install: build
-	$(PYTHON) $(SETUP) install --user
+	$(PYTHON) $(SETUP) install
 
 installcheck:
 	nose2 tests
