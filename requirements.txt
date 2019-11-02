@@ -4,3 +4,4 @@ numpy
 nose2
 pandas
 pyroma>=2.4
+setuptools>=38.6.0
