@@ -68,8 +68,3 @@ interval arithmetics.
   ](https://www.biorxiv.org/content/early/2018/06/01/232959.1)
 * N. Beerenkinkel et al, [Epistasis and shapes of fitness
   landscapes](http://www3.stat.sinica.edu.tw/statistica/oldpdf/A17n43.pdf)
-
-# Authors:
-
-* Korasidis Nikolaos <nkorasid@student.ethz.ch>,
-* Lamberti Lisa <lmlamberti@bsse.ethz.ch>
