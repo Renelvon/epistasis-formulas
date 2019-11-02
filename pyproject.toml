@@ -4,3 +4,8 @@ requires = [
     'setuptools>=38.6.0',
     'wheel',
 ] # PEP 508 specifications.
+
+[tool.black]
+line-length = 80
+skip-string-normalization = true
+target-version = ['py35']
