@@ -3,7 +3,7 @@ PIP=pip3
 PYTHON=python3
 SETUP=setup.py
 
-.PHONY: all build build_ext check install
+.PHONY: all bdist_wheel build check clean dist distclean install installcheck uninstall
 
 all: build
 
@@ -14,7 +14,7 @@ build:
 	$(PYTHON) $(SETUP) build
 
 check:
-	black $(SETUP)
+	black $(SETUP) $(NAME)
 	check-manifest
 	pylint $(SETUP) tests
 	pyroma -n 10 .
