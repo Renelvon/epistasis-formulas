@@ -1,4 +1,14 @@
-"""Various useful utilities"""
+"""
+UTILITIES
+=========
+
+There are various kinds of utilities in this module:
+    1. Functions permuting the raw data available so that the order follows the
+       convention set out in the 'fourier' module.
+    2. Tag-generating functions for circuit and interaction coordinate
+       calculations
+    3. Small auxiliary functions.
+"""
 
 import numpy as np
 
@@ -40,6 +50,8 @@ DATA_TO_PYSTASIS_PERM = (
 
 
 def convert_vector_to_pystasis_order(w):
+    """Convert a NumPy vector in 'experimental' order to the one following the
+    'fourier' module convention."""
     out_w = np.empty_like(w)
     for i, e in enumerate(w):
         out_w[DATA_TO_PYSTASIS_PERM[i]] = e
@@ -47,6 +59,8 @@ def convert_vector_to_pystasis_order(w):
 
 
 def convert_dataframe_to_pystasis_order(df):
+    """Convert a Panda Dataframe in 'experimental' order to the one following
+    the 'fourier' module convention."""
     return df.set_index(
         np.array(DATA_TO_PYSTASIS_PERM),
         verify_integrity=True
@@ -54,6 +68,10 @@ def convert_dataframe_to_pystasis_order(df):
 
 
 def is_standard_tag(tag):
+    """Return True iff the tag corresponds to a standard interaction coord.
+
+    Note that calculations involving circuits A,C,E can also coincide with
+    3rd-order interaction coordinates, and thus are can be standard tags."""
     if tag[0] in 'aceu':
         setup = tag[2:]
         if not '1' in setup and all(c.isupper() for c in setup if c.isalpha()):
@@ -62,6 +80,13 @@ def is_standard_tag(tag):
 
 
 def split_pos_neg(a):
+    """Split matrix A in two matrices, P and N, where P is nonnegative, N is
+    nonpositive and P + N == A.
+
+    Note: There is exactly one such pair P and N.
+
+    This function is used in interval calculations.
+    """
     abs_a = np.absolute(a)
     pos = (abs_a + a) // 2
     neg = a - pos
