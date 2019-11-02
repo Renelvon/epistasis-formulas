@@ -9,8 +9,8 @@ n-way interaction coordinates and some circuits in the n-species (or loci in
 genetics) case taking as input 2^n experimental measurements.  These
 interactions are described in A.L Gould et al's work on [High-dimensional
 microbiome interactions shape host fitness](
-https://www.biorxiv.org/content/early/2018/06/01/232959.1).
-
+https://doi.org/10.1073/pnas.1809349115); you can check the preprint on
+[bioRxiv](https://www.biorxiv.org/content/10.1101/232959v4).
 
 
 # Instructions:
@@ -53,23 +53,9 @@ The epistasis.py file uses the code contained in the following files:
   coordinates.
 * Utlis.py: minor module with additional codes used in the above files.
 
-# Observation: 
-
-The code builds on:  Python sequences. In particular tuple/list/dict
-comprehensions, generators and 'yield   from' idioms have been extensively
-applied to delegate a lot of data manipulation to Python. Only simple
-mathematical operators are used (inner product, matrix product). Elementary
-interval arithmetics.
-
-
 # References:
 
 * A.L Gould et al, [High-dimensional microbiome interactions shape host fitness
   ](https://www.biorxiv.org/content/early/2018/06/01/232959.1)
 * N. Beerenkinkel et al, [Epistasis and shapes of fitness
   landscapes](http://www3.stat.sinica.edu.tw/statistica/oldpdf/A17n43.pdf)
-
-# Authors:
-
-* Korasidis Nikolaos <nkorasid@student.ethz.ch>,
-* Lamberti Lisa <lmlamberti@bsse.ethz.ch>
