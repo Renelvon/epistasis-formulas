@@ -1,3 +1,25 @@
+"""
+CIRCUIT GENERATION
+==================
+
+This module generates the circuit matrix C of all the circuits from a to t,
+as defined in [1]. No matter to what data they are applied, the circuits
+calculated here always calcuate interactions between 3 active species, and thus
+are linear combinations of fitness vectors of length 2^3==8. Thus, applying
+them on data of more than 3 species requires us to select the active (non-fixed)
+species and the background (fixed) species, project the data and calculate the
+resulting epistases.
+
+Although all circuits are independent when applied to data of 3 species, this
+is not the case when calculating circuits over projected higher-order data. A
+suitable function is provided that generates duplicate circuits for the hard-
+coded case of calculating all order-3 circuits when n==5 species are available.
+
+To avoid extraneous computations, the duplicate list is provided.
+
+[1] Epistasis and Shapes of Fitness Landscapes
+"""
+
 import itertools
 
 import numpy as np
@@ -10,6 +32,15 @@ DUPLICATES = set(('a_0ABC0', 'a_1ABC0', 'a_A0BC0', 'a_A1BC0', 'a_AB0C0', 'a_AB1C
 
 
 def gen_circuits_3():
+    """Generate the circuit matrix C.
+
+    It is a 20 x 8 matrix which is derived from the full Fourier interaction
+    matrix of order 3, as specified in page 1325 of [1]. Note that computing
+    the circuit matrix via the Fourier matrix is a matter of convenience, but
+    causes a lot of numerical cancellations to happen. Thus, to avoid subtle
+    numerical errors and loss of precision in the final results, C should be
+    computed *prior* to applying it to data.
+    """
     f3 = fourier.generate_fourier_matrix(3)
     return np.vstack((
         gen_circuits_3_a2f(f3),
@@ -19,29 +50,34 @@ def gen_circuits_3():
 
 
 def gen_circuits_3_a2f(f_mat):
-    u_full = f_mat[3]
+    """Generate circuits a to f, using the formulas of [1]."""
+    u_full = f_mat[3]  # select 'u_111'
     circuits = np.empty((6, 8), dtype=f_mat.dtype)
     idx = 0
-    for u_row in reversed(f_mat[:3]):
+    for u_row in reversed(f_mat[:3]):  # for each of [u_011, u_101, u_110]...
         circuits[idx] =     u_row + u_full
         circuits[idx + 1] = u_row - u_full
         idx += 2
-    return circuits // 2
+    return circuits // 2  # compensate
 
 
 def gen_circuits_3_g2l(f_mat):
+    """Generate circuits g to l, using the formulas of [1]."""
     circuits = np.empty((6, 8), dtype=f_mat.dtype)
     combs = list(itertools.combinations(range(3), 2))
     combs.reverse()
     idx = 0
+
+    # for each ordered pair of [u_011, u_101, u_110]...
     for u_low, u_high in combs:
         circuits[idx] =     f_mat[u_high] + f_mat[u_low]
         circuits[idx + 1] = f_mat[u_high] - f_mat[u_low]
         idx += 2
-    return circuits // 2
+    return circuits // 2  # compensate
 
 
 def gen_circuits_3_m2t(f_mat):
+    """Generate circuits m to t, using the formulas of [1]."""
     sign_m = np.array([
         [-1, -1, -1, -1],
         [-1, -1, -1,  1],
@@ -52,19 +88,39 @@ def gen_circuits_3_m2t(f_mat):
         [-1,  1,  1,  1],
         [-1,  1,  1, -1]
     ])
-    return sign_m.dot(f_mat) // 2
+    # Combine elements of the Fourier matrix to form last 8 circuits
+    # (caution: cancellations!)
+    return sign_m.dot(f_mat) // 2 # compensate
 
 
 def generate_duplicates():
+    """Generate circuits m to t, using the formulas of [1]."""
     c = gen_circuits_3()
+
+    # Create a special fitness vector of size 32, where w_j == j.
     w = np.arange(0, 2**5)
+
+    # Generate all tagged projections of order 3 from 5 species.
     wp, wtags = slicing.generate_all_projections(w, 2, 5, 3)
 
+    # Calculate the (unreduced) result of applying the circuit matrix
+    # to each projection. Because of the specific W chosen, this
+    # results in vectors that contain signed elements of W and 0s.
     epistasis_setups = (
         (c[i] * wp[j], utils.gen_tag(i, wtags[j]))
         for i, j in itertools.product(range(len(c)), range(len(wp)))
     )
 
+    # Drop 0s from all resulting vectors, convert them to tuples and produce a
+    # dictionary as follows: The first time an epistatic calculation produces a
+    # tuple, add the tuple to the keys, without storing the epistatic tag. For
+    # each subsequent tag which recalcualtes the same tuple, record the tag.
+    # Finally, output all values as computing duplicates.
+    #
+    # NOTE: We assume that the tuples produced are pre-sorted in ascending
+    # magnitude of elements. In our implementation this is guaranteed by using
+    # the specific W above and the NumPy projecting facilities via the
+    # 'slicing' module.
     duplicates = {}
     for e, ctx in epistasis_setups:
         enz = tuple(e[e.nonzero()])
