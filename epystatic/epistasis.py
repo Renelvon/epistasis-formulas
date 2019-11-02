@@ -67,7 +67,7 @@ def gen_all_circuit_interactions(w, w_err, species, interval=False):
 
         # Split circuit matrix into nonnegative and nonpositive part,
         # and use elementary rules of interval arithmetic to calcualte results.
-        pos_a2t, neg_a2t = split_pos_neg(circuits_a2t)
+        pos_a2t, neg_a2t = utils.split_pos_neg(circuits_a2t)
 
         results_low = pos_a2t.dot(w_low_p) + neg_a2t.dot(w_high_p)
         results_high = pos_a2t.dot(w_high_p) + neg_a2t.dot(w_low_p)
@@ -164,7 +164,7 @@ def gen_coordinate_interactions_of_order(w, w_err, species, order, interval=Fals
 
         # Split circuit matrix into nonnegative and nonpositive part,
         # and use elementary rules of interval arithmetic to calcualte results.
-        pos_a2t, neg_a2t = split_pos_neg(f_mat)
+        pos_a2t, neg_a2t = utils.split_pos_neg(f_mat)
 
         results_low = pos_a2t.dot(w_low_p) + neg_a2t.dot(w_high_p)
         results_high = pos_a2t.dot(w_high_p) + neg_a2t.dot(w_low_p)
@@ -209,7 +209,7 @@ def gen_coordinate_tag(formula, order, w_tag):
     for i, c in enumerate(desc):
         if c not in '01':
             aux >>= 1
-            if not (formula & aux):
+            if not formula & aux:
                 desc[i] = c.lower()
     return 'u_' + ''.join(desc)
 
@@ -249,43 +249,45 @@ if __name__ == '__main__':
                        9.792,
                        10.125
                       ])
-    w_err = np.array([0.143,
-                                        0.177,
-                                        0.110,
-                                        0.134,
-                                        0.104,
-                                        0.125,
-                                        0.115,
-                                        0.134,
-                                        0.132,
-                                        0.098,
-                                        0.092,
-                                        0.127,
-                                        0.118,
-                                        0.125,
-                                        0.165,
-                                        0.134,
-                                        0.130,
-                                        0.167,
-                                        0.110,
-                                        0.138,
-                                        0.125,
-                                        0.130,
-                                        0.133,
-                                        0.119,
-                                        0.127,
-                                        0.112,
-                                        0.147,
-                                        0.153,
-                                        0.125,
-                                        0.127,
-                                        0.104,
-                                        0.110                ])
-                       
+    w_err = np.array([
+        0.143,
+        0.177,
+        0.110,
+        0.134,
+        0.104,
+        0.125,
+        0.115,
+        0.134,
+        0.132,
+        0.098,
+        0.092,
+        0.127,
+        0.118,
+        0.125,
+        0.165,
+        0.134,
+        0.130,
+        0.167,
+        0.110,
+        0.138,
+        0.125,
+        0.130,
+        0.133,
+        0.119,
+        0.127,
+        0.112,
+        0.147,
+        0.153,
+        0.125,
+        0.127,
+        0.104,
+        0.110,
+    ])
+
     w_pystasis = utils.convert_vector_to_pystasis_order(w_data)
     w_pystasis_err = utils.convert_vector_to_pystasis_order(w_err)
     w = w_pystasis
-    w_err=w_pystasis_err
+    w_err = w_pystasis_err
     results, errors, tags = compute_epistasis(w, w_err, 5)
     for result, error, tag in zip(results, errors, tags):
-       print(tag, result, error)
+        print(tag, result, error)

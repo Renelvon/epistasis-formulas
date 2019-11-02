@@ -71,7 +71,7 @@ import numpy as np
 from epystatic import utils
 
 
-class TensorProjector(object):
+class TensorProjector():
     """
     An object that allows manipulation and slicing of a 1D vector as
     a multidimensional tensor.
@@ -218,7 +218,7 @@ if __name__ == '__main__':
     l, rank = 2, 5
     w_flat = np.arange(0, l**rank)
     print(w_flat)
-    
+
     print('\nTransform w_flat into 5-D tensor with l = 2 elements per dimension.')
     w_tensor = w_flat.reshape(*[l] * rank)
     print(w_tensor)
@@ -232,7 +232,7 @@ if __name__ == '__main__':
     cp = TensorProjector(2, 5)
     w_tensor2 = cp.project_vector(w_flat, const_dims)
     print(w_tensor2)
-    
+
     print('\nGenerate all standard projections of size 3)')
     projections, tags = generate_all_standard_projections(w_flat, l, rank, 3)
     for p, t in zip(projections, tags):
