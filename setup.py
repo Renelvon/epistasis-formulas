@@ -10,9 +10,7 @@ import epystatic
 
 
 def main():
-    setuptools.setup(
-        version=epystatic.__version__,
-    )
+    setuptools.setup(version=epystatic.__version__,)
     # Rest of options are specified in `setup.cfg`
 
 
