@@ -1,8 +1,5 @@
 import unittest
 
-import numpy as np
-import pandas
-
 from epystatic import epistasis
 
 
