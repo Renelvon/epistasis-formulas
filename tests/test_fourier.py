@@ -7,79 +7,44 @@ from epystatic import fourier
 
 class TestFourierMatrixGeneration(unittest.TestCase):
 
-    def test_inner_product(self):
-        self.assertEqual(fourier._inner_product(0, 0), 0)
-        self.assertEqual(fourier._inner_product(1, 1), 1)
-        self.assertEqual(fourier._inner_product(4, 4), 1)
-        self.assertEqual(fourier._inner_product(1, 4), 0)
-        self.assertEqual(fourier._inner_product(15, 6), 2)
+    @staticmethod
+    def _inner_product(i, j):
+        return sum(1 for s in np.binary_repr(i & j) if s == '1')
 
-    def test_generate_full_fourier_matrix_iter_0(self):
-        f0 = np.array([[1]])
-        self.assertTrue(np.array_equal(
-            fourier.generate_full_fourier_matrix_iter(0),
-            f0
-        ))
-
-    def test_generate_full_fourier_matrix_iter_1(self):
-        f1 = np.array([[1, 1], [1, -1]])
-        self.assertTrue(np.array_equal(
-            fourier.generate_full_fourier_matrix_iter(1),
-            f1
-        ))
-
-    def test_generate_full_fourier_matrix_iter_2(self):
-        f2 = np.array([
-             [1, 1, 1, 1],
-             [1, -1, 1, -1],
-             [1, 1, -1, -1],
-             [1, -1, -1, 1],
-        ])
-        self.assertTrue(np.array_equal(
-            fourier.generate_full_fourier_matrix_iter(2),
-            f2
-        ))
-
-    def test_generate_full_fourier_matrix_rec_0(self):
-        self.assertTrue(np.array_equal(
-            fourier.generate_full_fourier_matrix_rec(0),
-            fourier.generate_full_fourier_matrix_iter(0),
-        ))
-
-    def test_generate_full_fourier_matrix_rec_1(self):
-        self.assertTrue(np.array_equal(
-            fourier.generate_full_fourier_matrix_rec(1),
-            fourier.generate_full_fourier_matrix_iter(1),
-        ))
-
-    def test_generate_full_fourier_matrix_rec_2(self):
-        self.assertTrue(np.array_equal(
-            fourier.generate_full_fourier_matrix_rec(2),
-            fourier.generate_full_fourier_matrix_iter(2),
-        ))
+    @classmethod
+    def _generate_full_fourier_matrix_iter(cls, n):
+        size = 2**n
+        f = np.empty((size, size), dtype=np.int16)
+        for i in range(size):
+            for j in range(size):
+                if cls._inner_product(i, j) % 2 == 0:
+                    f[i, j] = 1
+                else:
+                    f[i, j] = -1
+        return f
 
     def test_generate_full_fourier_matrix_0(self):
         self.assertTrue(np.array_equal(
             fourier.generate_full_fourier_matrix(0),
-            fourier.generate_full_fourier_matrix_rec(0),
+            self._generate_full_fourier_matrix_iter(0),
         ))
 
     def test_generate_full_fourier_matrix_1(self):
         self.assertTrue(np.array_equal(
             fourier.generate_full_fourier_matrix(1),
-            fourier.generate_full_fourier_matrix_rec(1),
+            self._generate_full_fourier_matrix_iter(1),
         ))
 
     def test_generate_full_fourier_matrix_2(self):
         self.assertTrue(np.array_equal(
             fourier.generate_full_fourier_matrix(2),
-            fourier.generate_full_fourier_matrix_rec(2),
+            self._generate_full_fourier_matrix_iter(2),
         ))
 
     def test_generate_full_fourier_matrix_5(self):
         self.assertTrue(np.array_equal(
             fourier.generate_full_fourier_matrix(5),
-            fourier.generate_full_fourier_matrix_rec(5),
+            self._generate_full_fourier_matrix_iter(5),
         ))
 
     def test_generate_singleton_indices_0(self):
