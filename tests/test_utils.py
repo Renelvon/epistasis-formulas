@@ -13,7 +13,7 @@ class TestSplitPosNeg(unittest.TestCase):
             [ 1, -3,  0],
             [-2, -4,  9],
             [ 1,  2,  3],
-            [ 0,  0,  0]
+            [ 0,  0,  0],
             [ 4, 17, -9]
         ])
 
@@ -21,7 +21,7 @@ class TestSplitPosNeg(unittest.TestCase):
             [ 1,  0,  0],
             [ 0,  0,  9],
             [ 1,  2,  3],
-            [ 0,  0,  0]
+            [ 0,  0,  0],
             [ 4, 17,  0]
         ])
 
@@ -29,7 +29,7 @@ class TestSplitPosNeg(unittest.TestCase):
             [ 0, -3,  0],
             [-2, -4,  0],
             [ 0,  0,  0],
-            [ 0,  0,  0]
+            [ 0,  0,  0],
             [ 0,  0, -9]
         ])
 
@@ -56,10 +56,10 @@ class TestConvertToPystasis(unittest.TestCase):
         self.exp_w = np.arange(2**5)
         self.pystasis_w = utils.convert_vector_to_pystasis_order(self.exp_w)
         self.target_w = np.array([
-             0,  5,  4, 15,  3, 14, 13, 25,
-             2, 12, 11, 24, 10, 23, 22, 30,
-             1,  9,  8, 21,  7, 20, 19, 29,
-             6, 18, 17, 28, 16, 27, 26, 31
+            0,  5,  4, 15,  3, 14, 13, 25,
+            2, 12, 11, 24, 10, 23, 22, 30,
+            1,  9,  8, 21,  7, 20, 19, 29,
+            6, 18, 17, 28, 16, 27, 26, 31
         ])
 
     def test_permute_np_vector(self):

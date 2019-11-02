@@ -14,8 +14,9 @@ build:
 	$(PYTHON) $(SETUP) build
 
 check:
-	black setup.py
+	black $(SETUP)
 	check-manifest
+	pylint $(SETUP) tests
 	pyroma -n 10 .
 
 clean:
