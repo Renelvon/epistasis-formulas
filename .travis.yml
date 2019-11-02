@@ -11,4 +11,5 @@ install:
     - make check
     - make install
 
-script: skip
+script:
+    - make installcheck

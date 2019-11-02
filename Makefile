@@ -28,5 +28,8 @@ distclean: clean
 install: build
 	$(PYTHON) $(SETUP) install --user
 
+installcheck:
+	nose2 tests
+
 uninstall:
 	$(PIP) uninstall -y $(NAME)
