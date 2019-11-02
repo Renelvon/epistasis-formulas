@@ -53,15 +53,6 @@ The epistasis.py file uses the code contained in the following files:
   coordinates.
 * Utlis.py: minor module with additional codes used in the above files.
 
-# Observation: 
-
-The code builds on:  Python sequences. In particular tuple/list/dict
-comprehensions, generators and 'yield   from' idioms have been extensively
-applied to delegate a lot of data manipulation to Python. Only simple
-mathematical operators are used (inner product, matrix product). Elementary
-interval arithmetics.
-
-
 # References:
 
 * A.L Gould et al, [High-dimensional microbiome interactions shape host fitness

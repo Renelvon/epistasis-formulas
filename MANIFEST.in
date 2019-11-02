@@ -2,6 +2,7 @@ recursive-include epystatic *.py
 recursive-include tests *.py
 
 include AUTHORS.md
+include CONTRIBUTING.md
 include LICENSE
 include README.md
 
