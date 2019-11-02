@@ -27,7 +27,9 @@ def compute_epistasis(w, w_err, species=5, interval=False):
     results, errors, tags = [c_results], [c_errors], [c_tags]
 
     # Second, compute all significant orders of interaction coordinates
-    u_epi = gen_all_coordinate_interactions(w, w_err, species, interval=interval)
+    u_epi = gen_all_coordinate_interactions(
+        w, w_err, species, interval=interval
+    )
     for u_results, u_errors, u_tags in u_epi:
         results.append(u_results)
         errors.append(u_errors)
@@ -49,8 +51,8 @@ def gen_all_circuit_interactions(w, w_err, species, interval=False):
     vector corresponding to the high end of intervals. Instead of results and
     errors, intervals of epistasis are computed.
     """
-    assert 2**species == len(w), 'Fitness vector has bad length'
-    assert 2**species == len(w_err), 'Fitness error vector has bad length'
+    assert 2 ** species == len(w), 'Fitness vector has bad length'
+    assert 2 ** species == len(w_err), 'Fitness error vector has bad length'
 
     # Generate all circuit interactions of order 3
     # Shape: (num_of_circtuits, 2**3)
@@ -59,7 +61,9 @@ def gen_all_circuit_interactions(w, w_err, species, interval=False):
     # Generate all possible setups (projections) of order 3
     # Shape: (num_of_projections, 2**3)
     wp, w_tags = slicing.generate_all_projections(w, 2, species, 3)
-    wp_err = slicing.generate_all_projections(w_err, 2, species, 3, tagged=False)
+    wp_err = slicing.generate_all_projections(
+        w_err, 2, species, 3, tagged=False
+    )
 
     if interval:
         w_low_p = w
@@ -84,7 +88,7 @@ def gen_all_circuit_interactions(w, w_err, species, interval=False):
         # squares of coefficients (circuit matrix) and squares of fitness
         # errors (wp_err).
         # Result shape: (num_of_circuits, num_of_projections)
-        errors = np.sqrt((circuits_a2t**2).dot((wp_err**2).T))
+        errors = np.sqrt((circuits_a2t ** 2).dot((wp_err ** 2).T))
 
     # Generate tags for all circuit interactions.
     all_c_tags = (
@@ -134,14 +138,18 @@ def gen_all_coordinate_interactions(w, w_err, species, interval=False):
     vector corresponding to the high end of intervals. Instead of results and
     errors, intervals of epistasis are computed.
     """
-    assert 2**species == len(w), 'Bad fitness vector length'
-    assert 2**species == len(w_err), 'Bad fitness std vector length'
+    assert 2 ** species == len(w), 'Bad fitness vector length'
+    assert 2 ** species == len(w_err), 'Bad fitness std vector length'
 
-    for order in range(3, species + 1): # order==2 is covered by circuits
-        yield gen_coordinate_interactions_of_order(w, w_err, species, order, interval=interval)
+    for order in range(3, species + 1):  # order==2 is covered by circuits
+        yield gen_coordinate_interactions_of_order(
+            w, w_err, species, order, interval=interval
+        )
 
 
-def gen_coordinate_interactions_of_order(w, w_err, species, order, interval=False):
+def gen_coordinate_interactions_of_order(
+    w, w_err, species, order, interval=False
+):
     """Generate all non-singleton coordinate interactions and standard errors
     of given 'order' among 'species' species.
 
@@ -156,7 +164,9 @@ def gen_coordinate_interactions_of_order(w, w_err, species, order, interval=Fals
     # Generate all possible setups (projections) of given order
     # Shape: (num_of_projections, 2**order)
     wp, w_tags = slicing.generate_all_projections(w, 2, species, order)
-    wp_err = slicing.generate_all_projections(w_err, 2, species, order, tagged=False)
+    wp_err = slicing.generate_all_projections(
+        w_err, 2, species, order, tagged=False
+    )
 
     if interval:
         w_low_p = w
@@ -178,20 +188,20 @@ def gen_coordinate_interactions_of_order(w, w_err, species, order, interval=Fals
 
         # Calculate std error of all interactions
         # Shape: (2**order - order - 1, num_of_projections)
-        errors = np.sqrt((f_mat**2).dot((wp_err**2).T))
+        errors = np.sqrt((f_mat ** 2).dot((wp_err ** 2).T))
 
     u_tags = tuple(
         gen_coordinate_tag(i, order, w_tag)
-        for i in range(2**order)
+        for i in range(2 ** order)
         for w_tag in w_tags
-        if i & (i - 1) # evaluates to 0 iff i == 0 or i == 2**j for j >= 0
+        if i & (i - 1)  # evaluates to 0 iff i == 0 or i == 2**j for j >= 0
     )
 
     return results.flatten(), errors.flatten(), u_tags
 
 
-#TODO: Write more clearly
-#TODO: Optimize
+# TODO: Write more clearly
+# TODO: Optimize
 def gen_coordinate_tag(formula, order, w_tag):
     """Generate a tag corresponding to an interaction coordinate
 
@@ -215,74 +225,79 @@ def gen_coordinate_tag(formula, order, w_tag):
 
 
 if __name__ == '__main__':
-    #w_data = np.array([32] + list(range(1, 32)))
-    w_data = np.array([10.455,
-                       11.167,
-                       10.125,
-                       10.542,
-                       10.458,
-                       9.875,
-                       10.167,
-                       10.542,
-                       10.375,
-                       9.833,
-                       9.875,
-                       10.292,
-                       9.625,
-                       10.125,
-                       9.958,
-                       9.792,
-                       9.833,
-                       10.167,
-                       9.875,
-                       10.250,
-                       10.125,
-                       9.833,
-                       9.917,
-                       9.583,
-                       9.958,
-                       10.042,
-                       10.000,
-                       9.708,
-                       9.875,
-                       10.042,
-                       9.792,
-                       10.125
-                      ])
-    w_err = np.array([
-        0.143,
-        0.177,
-        0.110,
-        0.134,
-        0.104,
-        0.125,
-        0.115,
-        0.134,
-        0.132,
-        0.098,
-        0.092,
-        0.127,
-        0.118,
-        0.125,
-        0.165,
-        0.134,
-        0.130,
-        0.167,
-        0.110,
-        0.138,
-        0.125,
-        0.130,
-        0.133,
-        0.119,
-        0.127,
-        0.112,
-        0.147,
-        0.153,
-        0.125,
-        0.127,
-        0.104,
-        0.110,
-    ])
+    # w_data = np.array([32] + list(range(1, 32)))
+    w_data = np.array(
+        [
+            10.455,
+            11.167,
+            10.125,
+            10.542,
+            10.458,
+            9.875,
+            10.167,
+            10.542,
+            10.375,
+            9.833,
+            9.875,
+            10.292,
+            9.625,
+            10.125,
+            9.958,
+            9.792,
+            9.833,
+            10.167,
+            9.875,
+            10.250,
+            10.125,
+            9.833,
+            9.917,
+            9.583,
+            9.958,
+            10.042,
+            10.000,
+            9.708,
+            9.875,
+            10.042,
+            9.792,
+            10.125,
+        ]
+    )
+    w_err = np.array(
+        [
+            0.143,
+            0.177,
+            0.110,
+            0.134,
+            0.104,
+            0.125,
+            0.115,
+            0.134,
+            0.132,
+            0.098,
+            0.092,
+            0.127,
+            0.118,
+            0.125,
+            0.165,
+            0.134,
+            0.130,
+            0.167,
+            0.110,
+            0.138,
+            0.125,
+            0.130,
+            0.133,
+            0.119,
+            0.127,
+            0.112,
+            0.147,
+            0.153,
+            0.125,
+            0.127,
+            0.104,
+            0.110,
+        ]
+    )
 
     w_pystasis = utils.convert_vector_to_pystasis_order(w_data)
     w_pystasis_err = utils.convert_vector_to_pystasis_order(w_err)

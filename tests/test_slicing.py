@@ -6,7 +6,6 @@ from epystatic import slicing
 
 
 class TestFourierMatrixGeneration(unittest.TestCase):
-
     def test_init(self):
         base, rank = 2, 5
         tp = slicing.TensorProjector(base=base, rank=rank)
@@ -16,7 +15,7 @@ class TestFourierMatrixGeneration(unittest.TestCase):
 
     def test_tensorize(self):
         base, rank = 3, 4
-        v = np.arange(0, base**rank)
+        v = np.arange(0, base ** rank)
         tp = slicing.TensorProjector(base=base, rank=rank)
         vt = tp.tensorize(v)
         new_shape = [base] * rank

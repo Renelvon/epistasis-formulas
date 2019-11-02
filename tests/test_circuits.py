@@ -6,7 +6,6 @@ from epystatic import circuits
 
 
 class TestCircuit3Generation(unittest.TestCase):
-
     def setUp(self):
         self.circuits = circuits.gen_circuits_3()
 

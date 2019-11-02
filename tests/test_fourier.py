@@ -6,14 +6,13 @@ from epystatic import fourier
 
 
 class TestFourierMatrixGeneration(unittest.TestCase):
-
     @staticmethod
     def _inner_product(i, j):
         return sum(1 for s in np.binary_repr(i & j) if s == '1')
 
     @classmethod
     def _generate_full_fourier_matrix_iter(cls, n):
-        size = 2**n
+        size = 2 ** n
         f = np.empty((size, size), dtype=np.int16)
         for i in range(size):
             for j in range(size):
@@ -24,28 +23,36 @@ class TestFourierMatrixGeneration(unittest.TestCase):
         return f
 
     def test_generate_full_fourier_matrix_0(self):
-        self.assertTrue(np.array_equal(
-            fourier.generate_full_fourier_matrix(0),
-            self._generate_full_fourier_matrix_iter(0),
-        ))
+        self.assertTrue(
+            np.array_equal(
+                fourier.generate_full_fourier_matrix(0),
+                self._generate_full_fourier_matrix_iter(0),
+            )
+        )
 
     def test_generate_full_fourier_matrix_1(self):
-        self.assertTrue(np.array_equal(
-            fourier.generate_full_fourier_matrix(1),
-            self._generate_full_fourier_matrix_iter(1),
-        ))
+        self.assertTrue(
+            np.array_equal(
+                fourier.generate_full_fourier_matrix(1),
+                self._generate_full_fourier_matrix_iter(1),
+            )
+        )
 
     def test_generate_full_fourier_matrix_2(self):
-        self.assertTrue(np.array_equal(
-            fourier.generate_full_fourier_matrix(2),
-            self._generate_full_fourier_matrix_iter(2),
-        ))
+        self.assertTrue(
+            np.array_equal(
+                fourier.generate_full_fourier_matrix(2),
+                self._generate_full_fourier_matrix_iter(2),
+            )
+        )
 
     def test_generate_full_fourier_matrix_5(self):
-        self.assertTrue(np.array_equal(
-            fourier.generate_full_fourier_matrix(5),
-            self._generate_full_fourier_matrix_iter(5),
-        ))
+        self.assertTrue(
+            np.array_equal(
+                fourier.generate_full_fourier_matrix(5),
+                self._generate_full_fourier_matrix_iter(5),
+            )
+        )
 
     def test_generate_singleton_indices_0(self):
         self.assertCountEqual(
