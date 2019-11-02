@@ -2,7 +2,7 @@ import unittest
 
 import numpy as np
 
-import circuits
+from epystatic import circuits
 
 
 class TestCircuit3Generation(unittest.TestCase):

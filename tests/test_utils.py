@@ -3,7 +3,7 @@ import unittest
 import numpy as np
 import pandas
 
-import utils
+from epystatic import utils
 
 
 class TestSplitPosNeg(unittest.TestCase):

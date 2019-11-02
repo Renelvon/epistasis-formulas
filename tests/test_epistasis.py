@@ -3,7 +3,7 @@ import unittest
 import numpy as np
 import pandas
 
-import epistasis
+from epystatic import epistasis
 
 
 class TestGenCircuitTag(unittest.TestCase):
