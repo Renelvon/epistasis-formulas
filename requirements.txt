@@ -1,3 +1,4 @@
 check-manifest>=0.38
 numpy
+nose2
 pyroma>=2.4
