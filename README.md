@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/Renelvon/epistasis-formulas.svg?branch=master)](https://travis-ci.org/Renelvon/epistasis-formulas)
+
 # Description:
 
 This Python code computes higher-order interactions such as 2-way, 3-way,…,

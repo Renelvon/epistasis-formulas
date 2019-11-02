@@ -2,7 +2,7 @@ import itertools
 
 import numpy as np
 
-import utils
+from epystatic import utils
 
 
 class TensorProjector(object):

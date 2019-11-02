@@ -2,7 +2,7 @@ import unittest
 
 import numpy as np
 
-import slicing
+from epystatic import slicing
 
 
 class TestFourierMatrixGeneration(unittest.TestCase):

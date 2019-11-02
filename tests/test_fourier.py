@@ -2,7 +2,7 @@ import unittest
 
 import numpy as np
 
-import fourier
+from epystatic import fourier
 
 
 class TestFourierMatrixGeneration(unittest.TestCase):

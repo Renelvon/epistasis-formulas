@@ -2,10 +2,10 @@ import itertools
 
 import numpy as np
 
-import circuits
-import fourier
-import slicing
-import utils
+from epystatic import circuits
+from epystatic import fourier
+from epystatic import slicing
+from epystatic import utils
 
 
 def compute_epistasis(w, w_err, species=5, interval=False):
