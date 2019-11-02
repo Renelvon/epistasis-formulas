@@ -7,6 +7,7 @@ include LICENSE
 include README.md
 
 include Makefile
+include .pylintrc
 include pyproject.toml
 include requirements.txt
 include setup.cfg
