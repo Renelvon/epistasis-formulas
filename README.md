@@ -9,8 +9,8 @@ n-way interaction coordinates and some circuits in the n-species (or loci in
 genetics) case taking as input 2^n experimental measurements.  These
 interactions are described in A.L Gould et al's work on [High-dimensional
 microbiome interactions shape host fitness](
-https://www.biorxiv.org/content/early/2018/06/01/232959.1).
-
+https://doi.org/10.1073/pnas.1809349115); you can check the preprint on
+[bioRxiv](https://www.biorxiv.org/content/10.1101/232959v4).
 
 
 # Instructions:
