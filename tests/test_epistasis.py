@@ -4,7 +4,6 @@ from epystatic import epistasis
 
 
 class TestGenCircuitTag(unittest.TestCase):
-
     def test_0(self):
         self.assertEqual(epistasis.gen_circuit_tag(0, ''), 'a_')
 

@@ -39,7 +39,6 @@ class TestSplitPosNeg(unittest.TestCase):
 
 
 class TestFormatContext(unittest.TestCase):
-
     def test_empty_without_context(self):
         self.assertEqual(utils.format_context([], 0), '')
 
@@ -51,9 +50,8 @@ class TestFormatContext(unittest.TestCase):
 
 
 class TestConvertToPystasis(unittest.TestCase):
-
     def setUp(self):
-        self.exp_w = np.arange(2**5)
+        self.exp_w = np.arange(2 ** 5)
         self.pystasis_w = utils.convert_vector_to_pystasis_order(self.exp_w)
         self.target_w = np.array([
             0,  5,  4, 15,  3, 14, 13, 25,

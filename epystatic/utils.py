@@ -45,7 +45,7 @@ DATA_TO_PYSTASIS_PERM = (
     0b11011,
     0b10111,
     0b01111,
-    0b11111
+    0b11111,
 )
 
 
@@ -62,8 +62,7 @@ def convert_dataframe_to_pystasis_order(df):
     """Convert a Panda Dataframe in 'experimental' order to the one following
     the 'fourier' module convention."""
     return df.set_index(
-        np.array(DATA_TO_PYSTASIS_PERM),
-        verify_integrity=True
+        np.array(DATA_TO_PYSTASIS_PERM), verify_integrity=True
     ).sort_index()
 
 
@@ -105,6 +104,7 @@ def format_context(context, n):
             j += 1
 
     return ''.join(fmtstr)
+
 
 def modulate_tag(tag, n, i):
     br = np.binary_repr(i, width=n)

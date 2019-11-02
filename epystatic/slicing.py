@@ -71,7 +71,7 @@ import numpy as np
 from epystatic import utils
 
 
-class TensorProjector(object):
+class TensorProjector:
     """
     An object that allows manipulation and slicing of a 1D vector as
     a multidimensional tensor.
@@ -94,7 +94,7 @@ class TensorProjector(object):
         self.all = slice(0, base, 1)
 
     def tensorize(self, v):
-        #TODO: Use values.reshape for panda series
+        # TODO: Use values.reshape for panda series
         return v.reshape(*[self.base] * self.rank)
 
     def project_vector(self, v, const_indices):
@@ -116,7 +116,9 @@ class TensorProjector(object):
         return v[projection_desc]
 
 
-def generate_all_standard_projections(w, base, full_rank, proj_rank, tagged=True):
+def generate_all_standard_projections(
+    w, base, full_rank, proj_rank, tagged=True
+):
     """Systematically generate all low-order 'projections' of a fitness vector
     W, against 'standard' (i.e. null, all-0) backgrounds. Generate tags when
     'tagged' is True.
@@ -135,11 +137,11 @@ def generate_all_standard_projections(w, base, full_rank, proj_rank, tagged=True
     projection where species 1, 3, 5 are non-fixed and 2 and 4 are fixed to 0
     (absent).
     """
-    assert len(w) == base**full_rank
+    assert len(w) == base ** full_rank
     assert 0 < proj_rank <= full_rank
 
     res_rank = full_rank - proj_rank
-    fixed_setup = (0,) * res_rank # standard projections: absent bystanders
+    fixed_setup = (0,) * res_rank  # standard projections: absent bystanders
     idx_options = tuple(itertools.combinations(range(full_rank), r=res_rank))
     contexts = tuple(tuple(zip(io, fixed_setup)) for io in idx_options)
 
@@ -148,10 +150,9 @@ def generate_all_standard_projections(w, base, full_rank, proj_rank, tagged=True
 
     # For each projection context, select and store the apppropriate elements
     # from fitness tensor
-    projections = np.array(tuple(
-        tp.project_tensor(wt, ctx).flatten()
-        for ctx in contexts
-    ))
+    projections = np.array(
+        tuple(tp.project_tensor(wt, ctx).flatten() for ctx in contexts)
+    )
 
     if not tagged:
         return projections
@@ -181,7 +182,7 @@ def generate_all_projections(w, base, full_rank, proj_rank, tagged=True):
     species 3 is fixed to 1.
     """
     assert base > 0
-    assert len(w) == base**full_rank
+    assert len(w) == base ** full_rank
     assert 0 < proj_rank <= full_rank
 
     res_rank = full_rank - proj_rank
@@ -199,10 +200,9 @@ def generate_all_projections(w, base, full_rank, proj_rank, tagged=True):
 
     # For each projection context, select and store the apppropriate elements
     # from fitness tensor
-    projections = np.array(tuple(
-        tp.project_tensor(wt, ctx).flatten()
-        for ctx in contexts
-    ))
+    projections = np.array(
+        tuple(tp.project_tensor(wt, ctx).flatten() for ctx in contexts)
+    )
 
     if not tagged:
         return projections
@@ -216,10 +216,12 @@ if __name__ == '__main__':
     print('Assume 5 different species, either present or absent (l = 2).')
     print('Construct the fitness vector w_flat, indexed by {b_0 b_1 ... b_4}')
     l, rank = 2, 5
-    w_flat = np.arange(0, l**rank)
+    w_flat = np.arange(0, l ** rank)
     print(w_flat)
-    
-    print('\nTransform w_flat into 5-D tensor with l = 2 elements per dimension.')
+
+    print(
+        '\nTransform w_flat into 5-D tensor with l = 2 elements per dimension.'
+    )
     w_tensor = w_flat.reshape(*[l] * rank)
     print(w_tensor)
 
@@ -232,7 +234,7 @@ if __name__ == '__main__':
     cp = TensorProjector(2, 5)
     w_tensor2 = cp.project_vector(w_flat, const_dims)
     print(w_tensor2)
-    
+
     print('\nGenerate all standard projections of size 3)')
     projections, tags = generate_all_standard_projections(w_flat, l, rank, 3)
     for p, t in zip(projections, tags):

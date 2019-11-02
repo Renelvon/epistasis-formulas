@@ -45,7 +45,7 @@ def generate_singleton_indices(n):
 
     [1] Epistasis and Shapes of Fitness Landscapes
     """
-    return [0] + [2**i for i in range(n)]
+    return [0] + [2 ** i for i in range(n)]
 
 
 def generate_full_fourier_matrix(n):
@@ -108,7 +108,7 @@ def generate_full_fourier_matrix(n):
     number of elements. If many cores are available and n is sufficiently
     large, the calculation can be parallelized.
     """
-    full_size = 2**n
+    full_size = 2 ** n
     f = np.empty((full_size, full_size), dtype=np.int16)
     f[0, 0] = 1
 
@@ -119,7 +119,7 @@ def generate_full_fourier_matrix(n):
         a = f[:q_size, :q_size]  # up left
         f[0:q_size, q_size:next_q_size] = a  # up right
         f[q_size:next_q_size, 0:q_size] = a  # low left
-        f[q_size:next_q_size, q_size:next_q_size] = - a # low right
+        f[q_size:next_q_size, q_size:next_q_size] = -a  # low right
 
         q_size = next_q_size
 
