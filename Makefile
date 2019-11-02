@@ -14,6 +14,7 @@ build:
 	$(PYTHON) $(SETUP) build
 
 check:
+	black setup.py
 	check-manifest
 	pyroma -n 10 .
 

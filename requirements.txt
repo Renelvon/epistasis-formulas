@@ -1,3 +1,4 @@
+black
 check-manifest>=0.38
 numpy
 nose2
