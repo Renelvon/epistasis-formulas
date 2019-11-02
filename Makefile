@@ -16,7 +16,7 @@ build:
 check:
 	black $(SETUP) $(NAME)
 	check-manifest
-	pylint $(SETUP) tests
+	pylint $(SETUP) $(NAME) tests
 	pyroma -n 10 .
 
 clean:
