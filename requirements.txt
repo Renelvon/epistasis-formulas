@@ -1,7 +1,6 @@
 black
 check-manifest>=0.38
 numpy
-nose2
 pandas
 pyroma>=2.4
 pylint

@@ -2,22 +2,18 @@ NAME=epystatic
 PIP=pip3
 PYTHON=python3
 SETUP=setup.py
+TESTS=tests
 
-.PHONY: all bdist_wheel build check clean dist distclean install installcheck uninstall
+.PHONY: all bdist_wheel build check clean dist distclean install lint test uninstall
 
 all: build
 
 bdist_wheel:
 	$(PYTHON) $(SETUP) bdist_wheel
 
-build:
-	$(PYTHON) $(SETUP) build
+build: bdist_wheel
 
-check:
-	black $(SETUP) $(NAME)
-	check-manifest
-	pylint $(SETUP) $(NAME) tests
-	pyroma -n 10 .
+check: lint test
 
 clean:
 	git clean -xfd
@@ -27,11 +23,17 @@ dist:
 
 distclean: clean
 
-install: build
-	$(PYTHON) $(SETUP) install
+install:
+	$(PIP) install --user .
 
-installcheck:
-	nose2 tests
+lint:
+	black $(SETUP) $(NAME)
+	check-manifest
+	pylint $(SETUP) $(NAME) $(TESTS)
+	pyroma -n 10 .
+
+test:
+	$(PYTHON) -m unittest
 
 uninstall:
 	$(PIP) uninstall -y $(NAME)
