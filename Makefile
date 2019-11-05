@@ -10,8 +10,7 @@ all: build
 bdist_wheel:
 	$(PYTHON) $(SETUP) bdist_wheel
 
-build:
-	$(PYTHON) $(SETUP) build
+build: bdist_wheel
 
 check: test
 	black $(SETUP) $(NAME)
@@ -27,8 +26,8 @@ dist:
 
 distclean: clean
 
-install: build
-	$(PYTHON) $(SETUP) install
+install:
+	$(PIP) install --user .
 
 test:
 	$(PYTHON) -m unittest
