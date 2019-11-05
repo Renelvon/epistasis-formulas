@@ -8,8 +8,7 @@ python: 3.6
 
 install:
     - pip install -r requirements.txt
-    - make check
-    - make install
 
 script:
-    - make installcheck
+    - make check
+    - make install
