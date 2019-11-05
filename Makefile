@@ -24,7 +24,7 @@ dist:
 distclean: clean
 
 install:
-	$(PIP) install --user .
+	$(PIP) install .
 
 lint:
 	black $(SETUP) $(NAME)
