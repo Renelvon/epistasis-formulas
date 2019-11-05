@@ -3,7 +3,7 @@ PIP=pip3
 PYTHON=python3
 SETUP=setup.py
 
-.PHONY: all bdist_wheel build check clean dist distclean install installcheck uninstall
+.PHONY: all bdist_wheel build check clean dist distclean install test uninstall
 
 all: build
 
@@ -13,7 +13,7 @@ bdist_wheel:
 build:
 	$(PYTHON) $(SETUP) build
 
-check:
+check: test
 	black $(SETUP) $(NAME)
 	check-manifest
 	pylint $(SETUP) $(NAME) tests
@@ -30,8 +30,8 @@ distclean: clean
 install: build
 	$(PYTHON) $(SETUP) install
 
-installcheck:
-	nose2 tests
+test:
+	$(PYTHON) -m unittest
 
 uninstall:
 	$(PIP) uninstall -y $(NAME)
